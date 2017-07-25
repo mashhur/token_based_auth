@@ -1,0 +1,46 @@
+extends layout
+
+block css
+	link(rel='stylesheet', href='/css/login.css')
+
+block content
+	form.form-horizontal(method="POST")
+		fieldset
+			// Form Name
+			h1(class='text-center login-title') SignUp
+			// Text input
+			.form-group
+				label.col-md-4.control-label(for="username") Username
+				.col-md-4
+					input#textinput.form-control.input-md(name="username", type="text", required="")
+			// Text input
+			.form-group
+				label.col-md-4.control-label(for="password") Password
+				.col-md-4
+					input#textinput.form-control.input-md(name="password", type="password", required="")
+			// Text input
+			.form-group
+				label.col-md-4.control-label(for="first_name") First name
+				.col-md-4
+					input#textinput.form-control.input-md(name="first_name", type="text", required="")
+			// Text input
+			.form-group
+				label.col-md-4.control-label(for="last_name") Last name
+				.col-md-4
+					input#textinput.form-control.input-md(name="last_name", type="text", required="")
+			// Text input
+			.form-group
+				label.col-md-4.control-label(for="date_of_birth") Date Of Birth
+				.col-md-4
+					input#textinput.form-control.input-md(name="date_of_birth", type="text")
+			// Text input
+			.form-group
+				label.col-md-4.control-label(for="email") E-mail
+				.col-md-4
+					input#textinput.form-control.input-md(name="email", type="text")
+			// Button
+			.form-group
+				label.col-md-4.control-label(for="singlebutton") Create user?
+				.col-md-4
+					button#singlebutton.btn.btn-primary(name="singlebutton") Yes
+

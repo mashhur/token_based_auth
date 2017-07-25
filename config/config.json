@@ -1,0 +1,32 @@
+{
+  "development": {
+    "username": "root",
+    "password": "mashhur",
+    "database": "chat",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "jwtSecret": "MyS3cr3tK3Y",
+    "jwtSession": {
+      "session": false
+    },
+    "ssl_option": false,
+    "session_secret": "SESSION_SECRET",
+    "secure_cookie": true
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "secure_cookie": false,
+    "ssl_option": true
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "mysql",
+    "session_secret": "SESSION_SECRET",
+    "secure_cookie": true,
+    "ssl_option": false
+  }
+}
