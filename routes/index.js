@@ -6,15 +6,15 @@ var jwt = require('jwt-simple');
 require('../config/passport')(passport);
 
 router.get('/', function(req, res, next) {
-    if (req.isAuthenticated()) {
-        res.redirect('/welcome');
+    if(req.cookies['access_token']) {
+        res.redirect('/chat');
         return;
     }
     res.render('login', { title: 'Token Based Authorization', message: '' });
 });
 
-router.post("/welcome", passport.authenticate('jwt', { session: false }), function(req, res) {
-    res.json("Success! You can not see this without a token");
+router.get("/chat", passport.authenticate('jwt', { session: false }), function(req, res) {
+    res.render("chat");
 });
 
 module.exports = router;

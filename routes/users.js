@@ -4,6 +4,7 @@ var models = require('../models/index');
 var bcrypt = require('bcrypt-nodejs');
 var Puid = require('puid');
 var jwt = require('jsonwebtoken');
+var passport = require('passport');
 
 var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/config.json')[env];
@@ -82,26 +83,42 @@ router.post('/login', function(req, res) {
             return;
         }
 
-        console.log(req.body);
+        // invalid token - synchronous
+        try {
+            jwt.verify(user.token, config.jwtSecret);
+            res.cookie('access_token', user.token, {secure: config.secure_cookie });
+            res.redirect('/chat');
+            //res.json({ success: true, token: user.token });
+            return;
+        } catch(err) {
+            // err
+            var user_token = jwt.sign({ user: req.body.username }, config.jwtSecret, {
+                expiresIn: '1d',
+                algorithm: 'HS256'
+            });
 
-        // update user token
-        var user_token = jwt.sign({user: req.body.username}, config.jwtSecret, {
-            expiresIn: '1d',
-            algorithm: 'HS256'
-        });
-
-        models.Users.update({
-            'token': user_token
-        }, {
-            where: { username: user.username }
-        }).then(function (user) {
-            if(user)
-                res.json({ success: true, token: user_token });
-        }).catch(function (err) {
-            console.log("Error while updating user ", err);
-            res.json({ success: false, message: 'Error occurred while updating user info.' });
-        });
+            models.Users.update({
+                'token': user_token
+            }, {
+                where: { username: user.username }
+            }).then(function (user) {
+                if(user) {
+                    res.cookie('access_token', user.token, {secure: config.secure_cookie });
+                    res.redirect('/chat');
+                    //res.json({success: true, token: user_token});
+                }
+            }).catch(function (err) {
+                console.log("Error while updating user ", err);
+                res.json({ success: false, message: 'Error occurred while updating user info.' });
+            });
+        }
     });
+});
+
+// logout
+router.get("/logout", passport.authenticate('jwt', { session: false }), function(req, res, next) {
+    res.clearCookie("access_token");
+    res.redirect('/');
 });
 
 /* list view */

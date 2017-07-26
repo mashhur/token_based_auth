@@ -11,7 +11,7 @@
     },
     "ssl_option": false,
     "session_secret": "SESSION_SECRET",
-    "secure_cookie": true
+    "secure_cookie": false
   },
   "test": {
     "username": "root",

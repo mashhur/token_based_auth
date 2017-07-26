@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var cookieParser = require('cookie-parser');
 
 // Bring in defined Passport Strategy
 require('./config/passport')(passport);
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
+app.use(cookieParser());
 
 // routers
 var index = require('./routes/index');
@@ -48,5 +50,6 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
 
 module.exports = app;
